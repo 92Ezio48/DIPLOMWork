@@ -1,3 +1,4 @@
+"use client";
 import BubbleMessage from "@/components/BubbleMessage/BubbleMessage";
 import CoursesContainer from "@/components/CoursesContainer/CoursesContainer";
 import styles from "./MainContainer.module.scss";
@@ -21,7 +22,12 @@ export default function MainContainer() {
         </BubbleMessage>
       </div>
       <CoursesContainer />
-      <button className={styles.scrollTopButton}>Наверх ↑</button>
+      <button
+        className={styles.scrollTopButton}
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      >
+        Наверх ↑
+      </button>
     </main>
   );
 }

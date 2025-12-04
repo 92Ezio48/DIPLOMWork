@@ -1,0 +1,21 @@
+{
+  "dependencies": {
+    "next": "^16.0.7",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1",
+    "react-router-dom": "^6.30.2",
+    "sass": "^1.94.2"
+  },
+  "devDependencies": {
+    "@svgr/webpack": "^8.1.0",
+    "@types/node": "24.10.1",
+    "@types/react": "19.2.7",
+    "nodemon": "^3.1.11",
+    "typescript": "5.9.3"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  }
+}

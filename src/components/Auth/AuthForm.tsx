@@ -84,7 +84,7 @@ export default function AuthForm({
   function handleModalClick(e: React.MouseEvent) {
     e.stopPropagation();
   }
-
+  
   return (
     <div className={styles.overlay} onClick={handleOverlayClick}>
       <div className={styles.modal} onClick={handleModalClick}>

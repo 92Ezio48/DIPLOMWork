@@ -1,12 +1,13 @@
 "use client";
 import styles from "./Header.module.scss";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useRef, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 
 export default function Header() {
   const { email, isAuth, logout } = useAuth();
   const router = useRouter();
+  const pathname = usePathname(); // 👈 Новый хук!
   const [showMenu, setShowMenu] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
 
@@ -16,16 +17,19 @@ export default function Header() {
   return (
     <header className={styles.header}>
       <div className={styles.left}>
-        <div className={styles.logoWrap}>
+        <div className={styles.logoWrap} onClick={() => router.push("/")}>
           <img
             src="/MainLogo.svg"
             alt="SkyFitnessPro Logo"
             className={styles.logo}
+            style={{ cursor: "pointer" }}
           />
         </div>
-        <div className={styles.subtitle}>
-          Онлайн‑тренировки для занятий дома
-        </div>
+        {pathname !== "/profile" && (
+          <div className={styles.subtitle}>
+            Онлайн‑тренировки для занятий дома
+          </div>
+        )}
       </div>
 
       {!isAuth ? (

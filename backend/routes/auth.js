@@ -4,7 +4,7 @@ const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-const JWT_SECRET = "your_jwt_secret"; // Лучше вынести в .env
+const JWT_SECRET = process.env.JWT_SECRET || "your_jwt_secret";
 
 // Помощник по валидации email
 function isValidEmail(email) {
@@ -101,5 +101,5 @@ router.get("/users", async (req, res) => {
     res.status(500).json({ message: "Ошибка сервера", error: err.message });
   }
 });
-
+console.log("JWT_SECRET in login:", JWT_SECRET);
 module.exports = router;

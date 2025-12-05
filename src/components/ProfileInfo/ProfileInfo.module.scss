@@ -1,0 +1,74 @@
+.card {
+  display: flex;
+
+  background: rgba(255, 255, 255, 1);
+
+  border-radius: 28px;
+  box-shadow: 0px 4px 67px -12px rgba(0, 0, 0, 0.13);
+
+  margin: 0 auto;
+  height: 257px;
+}
+
+.avatarWrap {
+  margin-right: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 197px;
+  height: 197px;
+  padding-left: 30px;
+  padding-top: 30px;
+}
+
+.avatar {
+  width: 197px;
+  height: 197px;
+  border-radius: 24px;
+  object-fit: contain;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  padding-top: 30px;
+}
+
+.nickname {
+  color: rgba(0, 0, 0, 1);
+  font-family: Roboto;
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 110%;
+  letter-spacing: 0px;
+  text-align: left;
+  margin-bottom: 30px;
+}
+
+.login {
+  color: rgba(0, 0, 0, 1);
+  font-family: Roboto;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 110%;
+  letter-spacing: 0px;
+  text-align: left;
+  margin-bottom: 44px;
+}
+
+.logoutBtn {
+  border: 1px solid rgba(0, 0, 0, 1);
+  border-radius: 46px;
+  background: rgba(255, 255, 255, 1);
+  cursor: pointer;
+  transition: background 0.15s;
+  width: 192px;
+  height: 52px;
+  color: rgba(0, 0, 0, 1);
+  font-family: Roboto;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 110%;
+  letter-spacing: 0px;
+  text-align: center;
+}

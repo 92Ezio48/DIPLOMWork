@@ -1,4 +1,3 @@
-// src/context/AuthContext.tsx
 "use client";
 import React, {
   createContext,
@@ -28,10 +27,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [email, setEmail] = useState<string | null>(null);
   const [token, setToken] = useState<string | null>(null);
 
+  // --- Важно: инициализация из localStorage только при маунте
   useEffect(() => {
-    // При маунте подтягиваем из localStorage
-    setEmail(localStorage.getItem("email"));
-    setToken(localStorage.getItem("token"));
+    const storedEmail = localStorage.getItem("email");
+    const storedToken = localStorage.getItem("token");
+
+    setEmail(storedEmail);
+    setToken(storedToken);
   }, []);
 
   const login = (email: string, token: string) => {
@@ -48,6 +50,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.removeItem("token");
   };
 
+  // --- ВАЖНО: isAuth вычислять по текущему стейту!
+  const isAuth = !!token;
+
   return (
     <AuthContext.Provider
       value={{
@@ -55,7 +60,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         token,
         login,
         logout,
-        isAuth: !!token,
+        isAuth,
       }}
     >
       {children}

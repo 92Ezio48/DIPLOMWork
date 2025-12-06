@@ -1,0 +1,198 @@
+.banner {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin: 102px 0px 50px;
+
+  border-radius: 18px;
+  padding: 40px;
+  background: #fff;
+  gap: 26px;
+  min-height: 340px;
+  box-shadow: #444;
+}
+
+.left {
+  flex: 1 0 340px;
+  position: relative;
+  z-index: 2;
+}
+
+.label {
+  display: inline-block;
+  background: #e8ebff;
+  color: #3264e8;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 8px;
+  padding: 4px 13px;
+  margin-bottom: 12px;
+}
+
+.title {
+  color: rgba(0, 0, 0, 1);
+  font-family: Roboto;
+  font-size: 60px;
+  font-weight: 500;
+  line-height: 100%;
+  letter-spacing: 0px;
+  text-align: left;
+  margin: 0;
+  margin-bottom: 28px;
+}
+
+.features {
+  color: rgba(0, 0, 0, 1);
+  font-family: Roboto;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 110%;
+  letter-spacing: 0px;
+  text-align: left;
+  padding-left: 30px;
+}
+
+.features li {
+  margin-bottom: 6px;
+}
+
+.button {
+  background: rgba(188, 236, 48, 1);
+
+  border: none;
+  border-radius: 46px;
+
+  font-weight: 600;
+  padding: 12px 30px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 8px;
+  color: rgba(0, 0, 0, 1);
+  font-family: Roboto;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 110%;
+  letter-spacing: 0px;
+  text-align: left;
+}
+
+.right {
+  flex: 1 0 280px;
+  position: relative;
+  min-width: 240px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.imageWrapper {
+  position: relative;
+  display: inline-block;
+  height: 220px;
+  width: 220px;
+}
+
+.athleteImage {
+  position: absolute;
+  right: -165px;
+  bottom: -97px;
+  height: 200px;
+  object-fit: contain;
+  z-index: 2;
+  user-select: none;
+  width: 487px;
+  height: 542.49px;
+}
+
+.decorLine {
+  z-index: 1;
+  pointer-events: none;
+  width: 1214px;
+  height: 834px;
+  position: absolute;
+  top: -304px;
+
+  left: -744px;
+}
+@media (max-width: 600px) {
+  .athleteImage {
+    object-fit: contain;
+    z-index: -1;
+    -webkit-user-select: none;
+    user-select: none;
+    width: 313.22px;
+    height: 348.91px;
+    position: absolute;
+    bottom: 226px;
+    right: 208px;
+  }
+  .title {
+    color: rgba(0, 0, 0, 1);
+    font-family: Roboto;
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 110%;
+    letter-spacing: 0px;
+    text-align: left;
+    width: 343px;
+  }
+  .banner {
+    box-sizing: border-box;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin: 156px 0px 50px;
+    z-index: 1;
+    border-radius: 18px;
+    background: #fff;
+    gap: 26px;
+    min-height: 340px;
+    box-shadow: #444;
+    margin-left: 16px;
+    margin-right: 16px;
+    padding: 0;
+  }
+  .left {
+    width: 343px;
+    position: relative;
+    z-index: 2;
+    background: #fff;
+  }
+  .features {
+    color: rgba(0, 0, 0, 1);
+    font-family: Roboto;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 110%;
+    letter-spacing: 0px;
+    text-align: left;
+  }
+  .button {
+    color: rgba(0, 0, 0, 1);
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 110%;
+    letter-spacing: 0px;
+    text-align: center;
+    border-radius: 46px;
+    width: 283px;
+  }
+  .ForButton {
+    display: flex;
+    justify-content: center;
+  }
+  .decorLine {
+    z-index: -4;
+    pointer-events: none;
+    /* width: 1214px; */
+    /* height: 834px; */
+    position: absolute;
+    top: -329px;
+    left: -906px;
+    width: 1031.03px;
+    height: 521.47px;
+  }
+}

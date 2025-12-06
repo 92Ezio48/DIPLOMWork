@@ -1,0 +1,197 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 50px;
+  padding-left: 140px;
+  padding-right: 140px;
+  background: rgba(250, 250, 250, 1);
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+}
+
+.logoWrap {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  width: 220px;
+  height: 35px;
+  margin-right: 10px;
+}
+
+.title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #222;
+}
+
+.subtitle {
+  color: rgba(0, 0, 0, 1);
+  padding-top: 15px;
+  font-family: Roboto;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 110%;
+  letter-spacing: 0px;
+  text-align: left;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  background: rgba(188, 236, 48, 1);
+
+  border-radius: 46px;
+  border: 1px solid #d8e7fd;
+  font-weight: 500;
+  color: #222;
+  width: 103px;
+  height: 52px;
+  justify-content: center;
+  color: rgba(0, 0, 0, 1);
+
+  font-family: Roboto;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 110%;
+  letter-spacing: 0px;
+  text-align: center;
+}
+.avatar {
+  width: 22px;
+  margin-right: 7px;
+}
+.userInfo {
+  position: relative;
+  display: inline-block;
+}
+.menu {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background: #fff;
+  box-shadow: 0 2px 16px #0002;
+  min-width: 200px;
+  border-radius: 12px;
+
+  z-index: 10;
+  width: 266px;
+  height: 258px;
+}
+.menuContent {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  align-items: center;
+}
+.menuTop {
+  margin-bottom: 34px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.menuName {
+  color: rgba(0, 0, 0, 1);
+  font-family: StratosSkyeng;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 110%;
+  letter-spacing: 0%;
+  text-align: left;
+}
+.menuEmail {
+  color: rgba(153, 153, 153, 1);
+  font-family: StratosSkyeng;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 110%;
+  letter-spacing: 0%;
+  text-align: left;
+}
+.menuProfile {
+  width: 206px;
+  height: 52px;
+  margin-bottom: 10px;
+  background: rgba(188, 236, 48, 1);
+  color: rgba(0, 0, 0, 1);
+  font-family: Roboto;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 110%;
+  letter-spacing: 0px;
+  text-align: center;
+  border-radius: 46px;
+  border: none;
+}
+.menuLogout {
+  width: 206px;
+  height: 52px;
+  background: rgba(255, 255, 255, 1);
+  color: rgba(0, 0, 0, 1);
+  font-family: Roboto;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 110%;
+  letter-spacing: 0px;
+  text-align: center;
+  border: 1px solid rgba(0, 0, 0, 1);
+
+  border-radius: 46px;
+}
+.profileBtn {
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+
+  margin-right: 6px;
+}
+.username {
+  color: rgba(0, 0, 0, 1);
+  font-family: Roboto;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 110%;
+  letter-spacing: 0px;
+  text-align: right;
+}
+@media (max-width: 600px) {
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 50px;
+    padding-left: 16px;
+    padding-right: 16px;
+    background: rgba(250, 250, 250, 1);
+  }
+  .subtitle {
+    display: none;
+  }
+  .username {
+    display: none;
+  }
+  .avatar {
+    width: 36px;
+    height: 36px;
+    margin-right: 0;
+  }
+  .user {
+    width: 83px;
+    height: 36px;
+  }
+}

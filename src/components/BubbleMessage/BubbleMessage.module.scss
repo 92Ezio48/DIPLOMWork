@@ -1,0 +1,32 @@
+.bubble {
+  background: rgba(188, 236, 48, 1);
+  color: #222;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+
+  min-width: 190px;
+  max-width: 320px;
+  min-height: 60px;
+  padding: 18px 26px;
+
+  position: relative;
+}
+.bubbleTail {
+  position: absolute;
+  left: 103.06px;
+  top: 85px;
+  width: 30px;
+  height: 35px;
+  pointer-events: none;
+  z-index: -1;
+}
+@media (max-width: 600px) {
+  .bubble {
+    display: none;
+  }
+  .bubbleTail {
+    display: none;
+  }
+}

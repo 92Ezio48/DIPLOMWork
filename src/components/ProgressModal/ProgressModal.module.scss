@@ -1,0 +1,149 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(34, 34, 38, 0.15);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal {
+  border-radius: 30px;
+  box-shadow: 0px 4px 67px -12px rgba(0, 0, 0, 0.13);
+  background: #fff;
+  width: 426px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  font-family: inherit;
+  height: 595.5px;
+}
+
+.title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-left: 40px;
+  margin-right: 40px;
+  margin-top: 40px;
+  margin-bottom: 34px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-left: 40px;
+  margin-right: 40px;
+  height: 100%;
+}
+
+.inputsScroll {
+  max-height: 330px;
+  overflow-y: auto;
+  padding-right: 2px;
+}
+
+.label {
+  color: #000;
+  font-family: Roboto, Arial, sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 110%;
+  text-align: left;
+  margin-bottom: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.input {
+  border: 1.5px solid #e0e0e5;
+  background: #f8f8fa;
+  border-radius: 12px;
+
+  font-size: 1.23rem;
+  margin-top: 2px;
+  outline: none;
+  transition: border-color 0.2s;
+  width: 320px;
+
+  font-weight: 500;
+  caret-color: #507be9;
+  height: 52px;
+
+  &:focus {
+    border-color: #507be9;
+    background: #fff;
+  }
+}
+
+.saveBtn {
+  margin-top: 34.25px;
+  width: 100%;
+  border-radius: 46px;
+  background: rgba(188, 236, 48, 1);
+  color: rgba(0, 0, 0, 1);
+  font-family: Roboto;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 110%;
+  letter-spacing: 0px;
+  text-align: center;
+  border: none;
+  height: 52px;
+  padding: 14px 0;
+  cursor: pointer;
+
+  transition: background 0.2s;
+
+  &:hover,
+  &:focus {
+    background: #bcee11;
+  }
+}
+@media (max-width: 600px) {
+  .modal {
+    border-radius: 30px;
+    box-shadow: 0px 4px 67px -12px rgba(0, 0, 0, 0.13);
+    background: #fff;
+    width: 343px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    font-family: inherit;
+    height: 595.5px;
+  }
+  .label {
+    color: rgba(0, 0, 0, 1);
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 110%;
+    letter-spacing: 0px;
+    text-align: left;
+  }
+  .input {
+    border: 1.5px solid #e0e0e5;
+    background: #fff; // <-- вот это меняем!
+    border-radius: 12px;
+    margin-top: 2px;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 221px;
+    caret-color: #507be9;
+    height: 43px;
+    padding-left: 16px;
+    color: rgba(0, 0, 0, 1);
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 110%;
+    letter-spacing: 0px;
+    text-align: left;
+    &:focus {
+      border-color: #507be9;
+      background: #fff; // это можно оставить, чтобы не перекрывать обычный background
+    }
+  }
+}

@@ -1,0 +1,213 @@
+.modalBg {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.19);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 120;
+}
+.modalContent {
+  width: 340px;
+  background: #fff;
+  border-radius: 24px;
+  padding: 32px 20px 24px;
+  box-shadow: 0 6px 40px rgba(52, 71, 101, 0.19);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.title {
+  color: rgba(0, 0, 0, 1);
+  font-family: StratosSkyeng;
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 110%;
+  letter-spacing: 0%;
+  text-align: left;
+  margin-bottom: 48px;
+}
+.workoutList {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 34px;
+  max-height: 400px;
+  position: relative;
+
+  &::-webkit-scrollbar {
+    width: 10px;
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: url("/CustomScroll.svg") center/contain no-repeat, #e4f7b0;
+    border-radius: 7px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  // Попытка убрать кнопки стрелок:
+  &::-webkit-scrollbar-button {
+    display: none;
+    width: 0;
+    height: 0;
+    background: none;
+  }
+  &::-webkit-scrollbar-button:single-button:decrement,
+  &::-webkit-scrollbar-button:single-button:increment {
+    display: none;
+    width: 0px;
+    height: 0px;
+    background: none;
+  }
+
+  scrollbar-width: thin;
+
+  // Перекрытие стрелок псевдоэлементом (универсально, визуально)
+  &::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 12px; // = ширине скролла
+    height: 100%;
+    pointer-events: none; // скроллить всё равно можно
+    background: linear-gradient(to right, transparent 0%, #fff 70%, #fff 100%);
+    z-index: 1;
+  }
+}
+.workoutItem {
+  display: flex;
+  align-items: start;
+  cursor: pointer;
+  gap: 11px;
+  margin-bottom: 5px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #edeef2;
+  align-items: center;
+  border-radius: 12px;
+  transition: background 0.17s;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  // ФОН для активного!
+  &.active {
+    background: rgba(
+      188,
+      236,
+      48,
+      0.21
+    ); // мягкий салатовый фон (можешь поправить)
+  }
+}
+.circle,
+.circleDone,
+.circleActive {
+  width: 22px;
+  height: 22px;
+
+  border: none;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  margin-top: 2px;
+  color: #b3b3b3;
+  transition: border 0.2s, background 0.2s;
+}
+.circleActive {
+  border-color: #b2f640;
+  background: #f7ffd6;
+  color: #b2f640;
+}
+.circleDone {
+  border: none;
+}
+.name {
+  color: rgba(0, 0, 0, 1);
+  font-family: Roboto;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 110%;
+  letter-spacing: 0px;
+  text-align: left;
+  margin-bottom: 10px;
+}
+.desc {
+  color: rgba(0, 0, 0, 1);
+  font-family: Roboto;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 110%;
+  letter-spacing: 0px;
+  text-align: left;
+}
+.startBtn {
+  margin: 24px auto 0;
+  width: 95%;
+  max-width: 280px;
+  background: rgba(188, 236, 48, 1);
+  color: #232;
+  border-radius: 46px;
+  border: none;
+  font-size: 1.08em;
+  font-weight: 700;
+  padding: 13px 0 11px;
+  cursor: pointer;
+  transition: background 0.12s;
+  color: rgba(0, 0, 0, 1);
+  font-family: Roboto;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 110%;
+  letter-spacing: 0px;
+  text-align: left;
+  text-align: center;
+}
+@media (max-width: 600px) {
+  .wrapper {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .title {
+    color: rgba(0, 0, 0, 1);
+    font-family: StratosSkyeng;
+    font-size: 32px;
+    font-weight: 400;
+    line-height: 110%;
+    letter-spacing: 0%;
+    text-align: left;
+    margin-bottom: 34px;
+  }
+  .name {
+    color: rgba(0, 0, 0, 1);
+    font-family: Roboto;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 110%;
+    letter-spacing: 0px;
+    text-align: left;
+  }
+  .desc {
+    color: rgba(0, 0, 0, 1);
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 110%;
+    letter-spacing: 0px;
+    text-align: left;
+  }
+  .modalContent {
+    width: 299px;
+    background: #fff;
+    border-radius: 24px;
+
+    box-shadow: 0 6px 40px rgba(52, 71, 101, 0.19);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+  }
+}

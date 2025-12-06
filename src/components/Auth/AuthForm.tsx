@@ -109,7 +109,11 @@ export default function AuthForm({
     <div className={styles.overlay} onClick={handleOverlayClick}>
       <div className={styles.modal} onClick={handleModalClick}>
         <img src="/MainLogo.svg" alt="SkyFitnessPro" className={styles.logo} />
-        <form className={styles.form} onSubmit={handleSubmit}>
+        <form
+          data-testid="form-test"
+          className={styles.form}
+          onSubmit={handleSubmit}
+        >
           <div className={styles.input__fields}>
             <input
               className={`${styles.input} ${
@@ -123,7 +127,9 @@ export default function AuthForm({
               disabled={loading}
             />
             {emailError && (
-              <div className={styles.errorTextField}>{emailError}</div>
+              <div data-testid="email-error" className={styles.errorTextField}>
+                {emailError}
+              </div>
             )}
 
             <input

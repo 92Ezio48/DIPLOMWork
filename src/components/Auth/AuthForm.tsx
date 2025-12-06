@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import styles from "./AuthForm.module.scss";
 import axios from "axios";
+import React from "react";
 
 type AuthFormProps = {
   onClose: () => void;
@@ -22,6 +23,9 @@ export default function AuthForm({
   const [repeat, setRepeat] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [emailError, setEmailError] = useState<string | null>(null);
+  const [passwordError, setPasswordError] = useState<string | null>(null);
+  const [repeatError, setRepeatError] = useState<string | null>(null);
 
   // 🔎 Валидация пароля (регистрация)
   function validatePassword(pw: string) {
@@ -38,16 +42,32 @@ export default function AuthForm({
     e.preventDefault();
     setError(null);
 
-    // Валидация email
-    if (!/^\S+@\S+\.\S+$/.test(email))
-      return setError("Введите корректный Email");
+    let errorFound = false;
+    setEmailError(null);
+    setPasswordError(null);
+    setRepeatError(null);
 
-    // Дополнительная валидация для регистрации
-    if (mode === "register") {
-      if (password !== repeat) return setError("Пароли не совпадают");
-      const pwError = validatePassword(password);
-      if (pwError) return setError(pwError);
+    // EMAIL
+    if (!/^\S+@\S+\.\S+$/.test(email)) {
+      setEmailError("Введите корректный Email");
+      errorFound = true;
     }
+
+    if (mode === "register") {
+      // REPEAT PASSWORD
+      if (password !== repeat) {
+        setRepeatError("Пароли не совпадают");
+        errorFound = true;
+      }
+      // PASSWORD VALIDATION
+      const pwError = validatePassword(password);
+      if (pwError) {
+        setPasswordError(pwError);
+        errorFound = true;
+      }
+    }
+
+    if (errorFound) return;
 
     setLoading(true);
 
@@ -84,7 +104,7 @@ export default function AuthForm({
   function handleModalClick(e: React.MouseEvent) {
     e.stopPropagation();
   }
-  
+
   return (
     <div className={styles.overlay} onClick={handleOverlayClick}>
       <div className={styles.modal} onClick={handleModalClick}>
@@ -92,7 +112,9 @@ export default function AuthForm({
         <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.input__fields}>
             <input
-              className={styles.input}
+              className={`${styles.input} ${
+                emailError ? styles.inputError : ""
+              }`}
               type="email"
               placeholder="Логин"
               value={email}
@@ -100,26 +122,52 @@ export default function AuthForm({
               autoFocus
               disabled={loading}
             />
+            {emailError && (
+              <div className={styles.errorTextField}>{emailError}</div>
+            )}
+
             <input
-              className={styles.input}
+              className={`${styles.input} ${
+                passwordError ? styles.inputError : ""
+              }`}
               type="password"
               placeholder="Пароль"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               disabled={loading}
             />
+            {passwordError && (
+              <div className={styles.errorTextField}>{passwordError}</div>
+            )}
+
             {mode === "register" && (
-              <input
-                className={styles.input}
-                type="password"
-                placeholder="Повторите пароль"
-                value={repeat}
-                onChange={(e) => setRepeat(e.target.value)}
-                disabled={loading}
-              />
+              <>
+                <input
+                  className={`${styles.input} ${
+                    repeatError ? styles.inputError : ""
+                  }`}
+                  type="password"
+                  placeholder="Повторите пароль"
+                  value={repeat}
+                  onChange={(e) => setRepeat(e.target.value)}
+                  disabled={loading}
+                />
+                {repeatError && (
+                  <div className={styles.errorTextField}>{repeatError}</div>
+                )}
+              </>
             )}
           </div>
-          {error && <div className={styles.errorText}>{error}</div>}
+          {error && (
+            <div className={styles.errorText}>
+              {error.split("\n").map((line, i) => (
+                <React.Fragment key={i}>
+                  {line}
+                  {i < error.split("\n").length - 1 && <br />}
+                </React.Fragment>
+              ))}
+            </div>
+          )}
           <div className={styles.nav}>
             <button className={styles.btn} type="submit" disabled={loading}>
               {mode === "login" ? "Войти" : "Зарегистрироваться"}
@@ -147,3 +195,4 @@ export default function AuthForm({
     </div>
   );
 }
+console.log(styles);

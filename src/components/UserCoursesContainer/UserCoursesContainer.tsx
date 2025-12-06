@@ -47,6 +47,7 @@ const coursesLocal = [
 
 export default function UserCoursesContainer() {
   const [userCourses, setUserCourses] = useState([]);
+  const [progressMap, setProgressMap] = useState({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -55,6 +56,7 @@ export default function UserCoursesContainer() {
       setLoading(false);
       return;
     }
+    // Загружаем курсы пользователя
     fetch("http://localhost:4000/api/fitness/users/me/courses", {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -66,7 +68,28 @@ export default function UserCoursesContainer() {
       .finally(() => setLoading(false));
   }, []);
 
-  // 💡 ФУНКЦИЯ ТУТ, а не снаружи!
+  // Загружаем прогресс по всем курсам пользователя
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token || userCourses.length === 0) return;
+    async function loadProgress() {
+      // Promise.all запускаем для ВСЕХ id
+      const arr = await Promise.all(
+        userCourses.map(async (uc) => {
+          const res = await fetch(
+            `http://localhost:4000/api/fitness/users/me/progress?courseId=${uc.courseId}`,
+            { headers: { Authorization: `Bearer ${token}` } }
+          );
+          if (!res.ok) return [uc.courseId, null];
+          const data = await res.json();
+          return [uc.courseId, data];
+        })
+      );
+      setProgressMap(Object.fromEntries(arr));
+    }
+    loadProgress();
+  }, [userCourses]);
+
   const handleDelete = async (courseId) => {
     setUserCourses((prev) => prev.filter((c) => c.courseId !== courseId));
     const token = localStorage.getItem("token");
@@ -79,9 +102,7 @@ export default function UserCoursesContainer() {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-    } catch (e) {
-      // обработка ошибок при желании
-    }
+    } catch (e) {}
   };
 
   if (loading) return <div>Загрузка...</div>;
@@ -93,6 +114,20 @@ export default function UserCoursesContainer() {
       {userCourses.map((uc) => {
         const localCourse = coursesLocal.find((c) => c._id === uc.courseId);
         if (!localCourse) return null;
+
+        // Получаем прогресс из Map
+        const progressData = progressMap[uc.courseId];
+        let percent = 0;
+        if (progressData && localCourse.days) {
+          // Дни: "25 дней" => 25, можно иначе хранить число
+          const total = Number(localCourse.days.split(" ")[0]);
+          const completed = Array.isArray(progressData.workoutsProgress)
+            ? progressData.workoutsProgress.filter((w) => w.workoutCompleted)
+                .length
+            : 0;
+          percent = total > 0 ? Math.round((completed / total) * 100) : 0;
+        }
+
         return (
           <UserCourseCard
             key={uc.courseId}
@@ -102,7 +137,7 @@ export default function UserCoursesContainer() {
             days={localCourse.days}
             time={localCourse.time}
             id={localCourse._id}
-            progress={uc.progress}
+            progress={percent}
             onDelete={handleDelete}
           />
         );

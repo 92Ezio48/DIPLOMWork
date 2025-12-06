@@ -7,6 +7,7 @@ const courses = [
   {
     slug: "yoga",
     cardSrc: "/skillcard1.svg",
+    cardSrcMobile: "/YogaCard.svg",
     fitForItems: [
       "Давно хотели попробовать йогу, но не решались начать",
       "Хотите укрепить позвоночник, избавиться от болей в спине и суставах",
@@ -24,6 +25,7 @@ const courses = [
   {
     slug: "stretching",
     cardSrc: "/skillcard2.svg",
+    cardSrcMobile: "/Course2.svg",
     fitForItems: [
       "Хотите стать гибче",
       "Ищете способ восстановиться после тренировки",
@@ -40,6 +42,7 @@ const courses = [
   {
     slug: "fitness",
     cardSrc: "/skillcard3.svg",
+    cardSrcMobile: "/Course3.svg",
     fitForItems: [
       "Желаете укрепить сердечно-сосудистую систему",
       "Хотите улучшить фигуру и увеличить выносливость",
@@ -56,6 +59,7 @@ const courses = [
   {
     slug: "step-aerobics",
     cardSrc: "/skillcard4.svg",
+    cardSrcMobile: "/Course4.svg",
     fitForItems: [
       "Хотите прокачать все группы мышц",
       "Любите динамичные групповые тренировки",
@@ -71,6 +75,7 @@ const courses = [
   {
     slug: "bodyflex",
     cardSrc: "/skillcard5.svg",
+    cardSrcMobile: "/Course5.svg",
     fitForItems: [
       "Хотите подтянуть силуэт и снизить вес",
       "Интересует дыхательная гимнастика",
@@ -96,10 +101,11 @@ export default function Page({ params }) {
 
   return (
     <CourseDescrContainer
-      cardSrc={course.cardSrc}
+      desktopImage={course.cardSrc}
+      mobileImage={course.cardSrcMobile}
       fitForItems={course.fitForItems}
       directions={course.directions}
-      isAuth={isAuth} // <-- теперь всё корректно работает!
+      isAuth={isAuth}
     />
   );
 }

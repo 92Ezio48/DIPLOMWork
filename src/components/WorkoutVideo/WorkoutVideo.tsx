@@ -14,7 +14,7 @@ export default function WorkoutVideo({
       <div className={styles.videoContainer}>
         <iframe
           className={styles.video}
-          src={videoUrl}
+          src="https://www.youtube.com/embed/gJPs7b8SpVw?start=1678"
           title="Тренировочное видео"
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

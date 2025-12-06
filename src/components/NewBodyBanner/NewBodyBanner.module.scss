@@ -115,3 +115,84 @@
 
   left: -744px;
 }
+@media (max-width: 600px) {
+  .athleteImage {
+    object-fit: contain;
+    z-index: -1;
+    -webkit-user-select: none;
+    user-select: none;
+    width: 313.22px;
+    height: 348.91px;
+    position: absolute;
+    bottom: 226px;
+    right: 208px;
+  }
+  .title {
+    color: rgba(0, 0, 0, 1);
+    font-family: Roboto;
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 110%;
+    letter-spacing: 0px;
+    text-align: left;
+    width: 343px;
+  }
+  .banner {
+    box-sizing: border-box;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin: 156px 0px 50px;
+    z-index: 1;
+    border-radius: 18px;
+    background: #fff;
+    gap: 26px;
+    min-height: 340px;
+    box-shadow: #444;
+    margin-left: 16px;
+    margin-right: 16px;
+    padding: 0;
+  }
+  .left {
+    width: 343px;
+    position: relative;
+    z-index: 2;
+    background: #fff;
+  }
+  .features {
+    color: rgba(0, 0, 0, 1);
+    font-family: Roboto;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 110%;
+    letter-spacing: 0px;
+    text-align: left;
+  }
+  .button {
+    color: rgba(0, 0, 0, 1);
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 110%;
+    letter-spacing: 0px;
+    text-align: center;
+    border-radius: 46px;
+    width: 283px;
+  }
+  .ForButton {
+    display: flex;
+    justify-content: center;
+  }
+  .decorLine {
+    z-index: -4;
+    pointer-events: none;
+    /* width: 1214px; */
+    /* height: 834px; */
+    position: absolute;
+    top: -329px;
+    left: -906px;
+    width: 1031.03px;
+    height: 521.47px;
+  }
+}

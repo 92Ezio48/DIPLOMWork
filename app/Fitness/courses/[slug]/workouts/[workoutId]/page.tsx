@@ -1,19 +1,23 @@
 import Workout from "@/components/Workout/Workout";
 import { notFound } from "next/navigation";
 
-// Если params — Promise, используем await!
-export default async function WorkoutPage({ params }: any) {
-  const realParams = await params; // ⬅️ ждём params!
+export default async function WorkoutPage({ params, searchParams }: any) {
+  // Если params Promise, дожидаемся его
+  const realParams = await params;
+  const realSearchParams = await searchParams;
 
-  // Подставляем значения из реальных params
+  const dayNumber = Number(realSearchParams?.day) || 1;
+  const workoutId = realParams.workoutId;
+
+  // Получение данных тренировки
   const resWorkout = await fetch(
-    `http://localhost:4000/api/fitness/workouts/${realParams.workoutId}`,
+    `http://localhost:4000/api/fitness/workouts/${workoutId}`,
     { cache: "no-store" }
   );
   if (!resWorkout.ok) return notFound();
   const dataWorkout = await resWorkout.json();
 
-  // Запрашиваем курс для получения названия
+  // Получение данных курса
   const resCourse = await fetch(
     `http://localhost:4000/api/courses/${realParams.slug}`,
     { cache: "no-store" }
@@ -22,12 +26,13 @@ export default async function WorkoutPage({ params }: any) {
   const dataCourse = await resCourse.json();
 
   return (
-    <>
-      <Workout
-        videoUrl={dataWorkout.video}
-        courseName={dataCourse.nameRU} // УКАЗЫВАЕШЬ ТУТ название курса!
-        exercises={dataWorkout.exercises}
-      />
-    </>
+    <Workout
+      workoutId={dataWorkout._id} // ✅ Передаём workoutId
+      courseId={dataCourse._id}
+      videoUrl={dataWorkout.video}
+      courseName={dataCourse.nameRU}
+      exercises={dataWorkout.exercises}
+      dayNumber={dayNumber}
+    />
   );
 }

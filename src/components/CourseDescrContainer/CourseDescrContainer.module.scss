@@ -29,3 +29,30 @@
   margin-top: 60px;
   margin-bottom: 40px;
 }
+@media (max-width: 600px) {
+  .main {
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 40px;
+  }
+  .courseCardImage {
+    width: 100%;
+  }
+  .courseImageSec {
+    width: 100%;
+  }
+  .fitForTitle {
+    color: rgba(0, 0, 0, 1);
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 110%;
+    letter-spacing: 0px;
+    text-align: left;
+    margin: 0;
+    margin-bottom: 24px;
+  }
+  .fitForSection {
+    margin: 40px 0 0 0;
+  }
+}

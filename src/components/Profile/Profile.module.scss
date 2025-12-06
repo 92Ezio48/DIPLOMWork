@@ -35,3 +35,32 @@
   margin-top: 60px;
   margin-bottom: 40px;
 }
+@media (max-width: 600px) {
+  .profilePage {
+    padding-left: 16px;
+    padding-right: 16px;
+    margin-top: 0;
+  }
+  .title {
+    color: rgba(0, 0, 0, 1);
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 110%;
+    letter-spacing: 0px;
+    text-align: left;
+    margin-top: 40px;
+    margin-bottom: 24px;
+  }
+  .subtitle {
+    margin-top: 54px;
+    margin-bottom: 24px;
+    color: rgba(0, 0, 0, 1);
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 110%;
+    letter-spacing: 0px;
+    text-align: left;
+  }
+}

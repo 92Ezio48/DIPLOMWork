@@ -30,9 +30,11 @@ export default function NewBodyBanner() {
           <li>упражнения заряжают бодростью</li>
           <li>помогают противостоять стрессам</li>
         </ul>
-        <button className={styles.button} onClick={handleClick}>
-          {isAuth ? "Добавить курс" : "Войдите, чтобы добавить курс"}
-        </button>
+        <div className={styles.ForButton}>
+          <button className={styles.button} onClick={handleClick}>
+            {isAuth ? "Добавить курс" : "Войдите, чтобы добавить курс"}
+          </button>
+        </div>
       </div>
       <div className={styles.right}>
         <div className={styles.imageWrapper}>

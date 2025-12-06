@@ -23,5 +23,6 @@ app.use("/api/fitness/auth", authRouter);
 app.use("/api", require("./routes/course"));
 app.use("/api/fitness/users/me/progress", progressRouter);
 app.use("/api/fitness/workouts", workoutsRouter);
+app.use("/api/fitness", progressRouter);
 
 app.listen(4000, () => console.log("Backend стартовал на 4000"));

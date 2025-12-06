@@ -22,3 +22,11 @@
   pointer-events: none;
   z-index: -1;
 }
+@media (max-width: 600px) {
+  .bubble {
+    display: none;
+  }
+  .bubbleTail {
+    display: none;
+  }
+}

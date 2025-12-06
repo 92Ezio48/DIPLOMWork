@@ -14,7 +14,12 @@ type Props = {
   progress: number;
   onDelete?: (courseId: string) => void;
 };
-
+function isWorkoutDoneLocally(id: string) {
+  return (
+    typeof window !== "undefined" &&
+    localStorage.getItem("workout_completed_" + id) === "true"
+  );
+}
 export default function UserCourseCard({
   slug,
   title,
@@ -61,17 +66,24 @@ export default function UserCourseCard({
         )
           .then((res) => res.json())
           .then((progressData) => {
-            if (progressData?.workoutsProgress) {
-              workoutsArr.forEach((w) => {
-                const match = progressData.workoutsProgress.find(
-                  (p: any) => p.workoutId === w.id
-                );
-                w.done = !!match?.workoutCompleted;
-              });
-            }
+            workoutsArr.forEach((w) => {
+              // server прогресс
+              const apiDone = !!progressData?.workoutsProgress?.find(
+                (p: any) => p.workoutId === w.id && p.workoutCompleted
+              );
+              // local прогресс
+              const localDone = isWorkoutDoneLocally(w.id);
+              w.done = apiDone || localDone;
+            });
             setWorkouts(workoutsArr);
           })
-          .catch(() => setWorkouts(workoutsArr));
+          .catch(() => {
+            // fallback: только localStorage
+            workoutsArr.forEach((w) => {
+              w.done = isWorkoutDoneLocally(w.id);
+            });
+            setWorkouts(workoutsArr);
+          });
       })
       .finally(() => setIsLoading(false));
   }, [modalOpen, id]);
@@ -95,7 +107,9 @@ export default function UserCourseCard({
   };
 
   const handleStartWorkout = (idx: number) => {
-    router.push(`/Fitness/courses/${slug}/workouts/${workouts[idx].id}`);
+    router.push(
+      `/Fitness/courses/${slug}/workouts/${workouts[idx].id}?day=${idx + 1}`
+    );
     setModalOpen(false);
   };
 
@@ -135,7 +149,7 @@ export default function UserCourseCard({
           <span className={styles.coursecard__difficultyIcon}>
             <img src="/CardDifficult.svg" alt="Сложность" />
           </span>
-          <span>Сложность</span>
+          <p>Сложность</p>
         </div>
         <div className={styles.coursecard__progressBlock}>
           <p className={styles.coursecard__progressTitle}>

@@ -20,8 +20,10 @@ export default function ProfileInfo({
         <img src={avatarSrc} alt="Аватар" className={styles.avatar} />
       </div>
       <div className={styles.info}>
-        <div className={styles.nickname}>{nickname}</div>
-        <div className={styles.login}>Логин: {login}</div>
+        <div className={styles.info__names}>
+          <div className={styles.nickname}>{nickname}</div>
+          <div className={styles.login}>Логин: {login}</div>
+        </div>
         {onLogout && (
           <button className={styles.logoutBtn} onClick={onLogout}>
             Выйти

@@ -25,11 +25,12 @@ export default function Header() {
             style={{ cursor: "pointer" }}
           />
         </div>
-        {pathname !== "/profile" && (
-          <div className={styles.subtitle}>
-            Онлайн‑тренировки для занятий дома
-          </div>
-        )}
+        {pathname !== "/profile" &&
+          !/^\/Fitness\/courses\/[^/]+\/workouts\/[^/]+/.test(pathname) && (
+            <div className={styles.subtitle}>
+              Онлайн‑тренировки для занятий дома
+            </div>
+          )}
       </div>
 
       {!isAuth ? (

@@ -35,7 +35,7 @@ router.post("/register", async (req, res) => {
     if (existed) {
       return res
         .status(404)
-        .json({ message: "Пользователь с таким email уже существует" });
+        .json({ message: "Данная почта уже используется. Попробуйте войти." });
     }
 
     // Проверка валидности пароля
@@ -75,7 +75,9 @@ router.post("/login", async (req, res) => {
     // Сравниваем пароли
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(404).json({ message: "Неверный пароль" });
+      return res
+        .status(404)
+        .json({ message: "Пароль введен неверно,\nпопробуйте еще раз." });
     }
 
     // Генерируем JWT токен (expiresIn: 7d)

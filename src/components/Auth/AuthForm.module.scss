@@ -32,27 +32,45 @@
 }
 
 .input {
-  padding: 10px 14px;
+  height: 48px;
+  padding-left: 18px;
   border-radius: 8px;
   border: 1px solid rgba(208, 206, 206, 1);
   font-size: 1rem;
   font-family: inherit;
   outline: none;
   transition: border 0.2s;
-  color: rgba(208, 206, 206, 1);
+  color: rgba(0, 0, 0, 1);
   font-family: Roboto;
   font-size: 18px;
   font-weight: 400;
   line-height: 110%;
   letter-spacing: 0px;
   text-align: left;
+  background: rgba(255, 255, 255, 1);
+  &:focus {
+    background: rgba(255, 255, 255, 1);
+  }
 }
-
+input:-webkit-autofill,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px rgba(255, 255, 255, 1) inset;
+  box-shadow: 0 0 0 1000px rgba(255, 255, 255, 1) inset;
+  -webkit-text-fill-color: rgba(0, 0, 0, 1);
+  transition: background-color 5000s ease-in-out 0s;
+}
 .inputError {
-  border-color: #f95353;
-  background: #ffeff0;
+  border-color: #f00 !important;
+  box-shadow: 0 0 0 1.5px #f00 !important;
 }
-
+.errorTextField {
+  color: #f00;
+  font-size: 12px;
+  margin: 2px 0 6px 2px;
+  min-height: 16px;
+}
 .errorText {
   color: #f95353;
   font-size: 0.92em;
@@ -124,4 +142,19 @@
   letter-spacing: 0px;
   text-align: center;
   padding-top: 10px;
+}
+@media (max-width: 600px) {
+  .modal {
+    width: 343px;
+    border-radius: 30px;
+    padding: 40px;
+    box-sizing: border-box;
+  }
+
+  .logo {
+    margin-bottom: 32px;
+    max-width: 65vw;
+    width: 220px;
+    height: 35px;
+  }
 }

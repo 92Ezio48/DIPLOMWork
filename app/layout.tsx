@@ -1,12 +1,12 @@
 "use client";
 import Header from "@/components/Header/Header";
 import { AuthProvider } from "@/context/AuthContext";
-import { Montserrat } from "next/font/google"; //💡
+import { Roboto } from "next/font/google"; //💡
 import "./globals.css";
 // 💡 Подключение шрифта
-const montserrat = Montserrat({
+const montserrat = Roboto({
   subsets: ["latin", "cyrillic"],
-  weight: ["200", "400", "500", "600", "700"], // 💡Укажи нужные начертания
+  weight: ["200", "300", "400", "500", "600", "700"], //
   variable: "--font-montserrat", // 💡Можно использовать в CSS как var(--font-montserrat)
   display: "swap",
 });

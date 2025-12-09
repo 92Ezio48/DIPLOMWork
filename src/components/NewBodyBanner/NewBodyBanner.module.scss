@@ -49,16 +49,18 @@
   line-height: 110%;
   letter-spacing: 0px;
   text-align: left;
-  padding-left: 30px;
+  padding-left: 36px;
+  margin-bottom: 21px;
 }
 
 .features li {
-  margin-bottom: 6px;
+  margin-bottom: 11px;
 }
 
 .button {
   background: rgba(188, 236, 48, 1);
-
+  width: 437px;
+  height: 52px;
   border: none;
   border-radius: 46px;
 
@@ -70,11 +72,11 @@
   margin-top: 8px;
   color: rgba(0, 0, 0, 1);
   font-family: var(--font-montserrat), sans-serif;
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 400;
   line-height: 110%;
   letter-spacing: 0px;
-  text-align: left;
+  text-align: center;
 }
 
 .right {
@@ -95,8 +97,8 @@
 
 .athleteImage {
   position: absolute;
-  right: -165px;
-  bottom: -97px;
+  bottom: -87px;
+  right: -136px;
   height: 200px;
   object-fit: contain;
   z-index: 2;
@@ -108,12 +110,11 @@
 .decorLine {
   z-index: 1;
   pointer-events: none;
-  width: 1214px;
-  height: 834px;
+  width: 1267px;
+  height: 819px;
   position: absolute;
-  top: -304px;
-
-  left: -744px;
+  top: -294px;
+  left: -814px;
 }
 @media (max-width: 600px) {
   .athleteImage {

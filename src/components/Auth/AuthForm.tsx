@@ -18,6 +18,7 @@ export default function AuthForm({
   const { login } = useAuth();
   const router = useRouter();
   const [mode, setMode] = useState<"login" | "register">(initialMode);
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [repeat, setRepeat] = useState("");
@@ -70,28 +71,44 @@ export default function AuthForm({
     if (errorFound) return;
 
     setLoading(true);
+    const loginValue = email; // если ты хранишь "логин" в этом поле
+    const nameValue = "Имя пользователя"; // Получай имя отдельно!
 
     try {
       if (mode === "register") {
-        // регистрация
-        const res = await axios.post(
-          "http://localhost:4000/api/fitness/auth/register",
-          { email, password }
+        await axios.post(
+          "https://wedev-api.sky.pro/api/fitness/auth/register",
+          {
+            email: loginValue,
+            password: password,
+          },
+          {
+            headers: { "Content-Type": "" },
+          }
         );
         onClose();
-        router.push("/login");
       } else {
-        // авторизация
         const res = await axios.post(
-          "http://localhost:4000/api/fitness/auth/login",
-          { email, password }
+          "https://wedev-api.sky.pro/api/fitness/auth/login",
+          {
+            email: loginValue,
+            password: password,
+          },
+          {
+            headers: { "Content-Type": "" },
+          }
         );
-        login(email, res.data.token); // <<<<< ВОТ ТУТ!
+        login(loginValue, res.data.token);
         onClose();
         router.push("/Fitness/Main");
       }
     } catch (err: any) {
-      setError(err.response?.data?.message || err.message || "Ошибка запроса");
+      setError(
+        err.response?.data?.error ||
+          err.response?.data?.message ||
+          err.message ||
+          "Ошибка запроса"
+      );
     }
     setLoading(false);
   };
@@ -185,10 +202,8 @@ export default function AuthForm({
                 setError(null);
                 if (mode === "login") {
                   setMode("register");
-                  router.push("/auth/register");
                 } else {
                   setMode("login");
-                  router.push("/auth/login");
                 }
               }}
               disabled={loading}
@@ -201,4 +216,3 @@ export default function AuthForm({
     </div>
   );
 }
-console.log(styles);

@@ -1,3 +1,4 @@
+"use client";
 import Header from "@/components/Header/Header";
 import { AuthProvider } from "@/context/AuthContext"; // путь уточни свой!
 import "./globals.css";

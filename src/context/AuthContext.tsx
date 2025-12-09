@@ -13,6 +13,7 @@ type AuthContextType = {
   login: (email: string, token: string) => void;
   logout: () => void;
   isAuth: boolean;
+  loading: boolean;
 };
 
 const AuthContext = createContext<AuthContextType>({
@@ -21,12 +22,13 @@ const AuthContext = createContext<AuthContextType>({
   login: () => {},
   logout: () => {},
   isAuth: false,
+  loading: true, // 👈 вот так!
 });
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [email, setEmail] = useState<string | null>(null);
   const [token, setToken] = useState<string | null>(null);
-
+  const [isLoading, setIsLoading] = useState(true); // 🟢
   // --- Важно: инициализация из localStorage только при маунте
   useEffect(() => {
     const storedEmail = localStorage.getItem("email");
@@ -34,6 +36,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     setEmail(storedEmail);
     setToken(storedToken);
+    setIsLoading(false); // ⬅️
   }, []);
 
   const login = (email: string, token: string) => {
@@ -61,9 +64,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         login,
         logout,
         isAuth,
+        loading: isLoading, // 👈 добавь!
       }}
     >
-      {children}
+      {isLoading ? null : children}
     </AuthContext.Provider>
   );
 }

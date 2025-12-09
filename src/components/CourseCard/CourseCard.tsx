@@ -26,34 +26,28 @@ export default function CourseCard({
   // ⬇️ ДОБАВЛЕНИЕ КУРСА ПО КНОПКЕ +
   const handleBtnClick = async (e: React.MouseEvent) => {
     e.stopPropagation();
-
-    // 1. Забираем токен из localStorage
     const token = localStorage.getItem("token");
     if (!token) {
       alert("Сначала войдите в аккаунт!");
       router.push("/auth/login");
       return;
     }
-
-    // 2. Делаем POST запрос
     try {
       const response = await fetch(
-        "http://localhost:4000/api/fitness/users/me/courses",
+        "https://wedev-api.sky.pro/api/fitness/users/me/courses",
         {
           method: "POST",
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
           },
           body: JSON.stringify({ courseId: id }),
         }
       );
-
       const data = await response.json();
 
       if (response.ok) {
-        alert("Курс добавлен!");
-        // Можешь тут обновлять стейт/делать красивое уведомление
+        alert("Курс добавлен в профиль!");
+        // 👉 Тут можешь вызвать props.onAdded?.() или обновить родителя через state
       } else {
         alert(data.message || "Ошибка добавления курса");
       }

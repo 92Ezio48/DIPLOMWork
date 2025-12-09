@@ -3,14 +3,23 @@ import FitForList from "../FitForList/FitForList";
 import DirectionsList from "../DirectionsList/DirectionsList";
 import styles from "./CourseDescrContainer.module.scss";
 import NewBodyBanner from "../NewBodyBanner/NewBodyBanner";
-
+// ✅ Вот так правильно: объяви пропсы ЯВНО!
+type CourseDescrContainerProps = {
+  desktopImage: string;
+  mobileImage: string;
+  fitForItems: any[];
+  directions: any[];
+  isAuth: boolean;
+  courseId: string; // ⚡️ ключевой проп!
+};
 export default function CourseDescrContainer({
   desktopImage,
   mobileImage,
   fitForItems,
   directions,
   isAuth,
-}) {
+  courseId,
+}: CourseDescrContainerProps) {
   return (
     <main className={styles.main}>
       <section className={styles.courseImageSec}>
@@ -29,7 +38,9 @@ export default function CourseDescrContainer({
       </section>
       <h2 className={styles.directions}>Направления</h2>
       <DirectionsList directions={directions} />
-      <NewBodyBanner />
+
+      {/* ✅ Теперь всё по-настоящему! */}
+      <NewBodyBanner courseId={courseId} />
     </main>
   );
 }

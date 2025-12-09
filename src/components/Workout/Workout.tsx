@@ -13,19 +13,6 @@ export type Exercise = {
   courseName: string;
 };
 
-const exerciseNames = [
-  "Наклон вперед (подход 1)",
-  "Наклон назад (подход 1)",
-  "Поднятие ног (подход 1)",
-  "Наклон вперед (подход 2)",
-  "Наклон назад (подход 2)",
-  "Поднятие ног (подход 2)",
-  "Наклон вперед (подход 3)",
-  "Наклон назад (подход 3)",
-  "Поднятие ног (подход 3)",
-];
-const maxPerExercise = 20;
-
 type WorkoutProps = {
   workoutId: string;
   videoUrl: string;
@@ -52,7 +39,7 @@ export default function Workout({
   const [loading, setLoading] = useState(true);
   const [toastOpen, setToastOpen] = useState(false);
 
-  // 🟢 1. Загрузка прогресса при монтировании
+  // Загрузка прогресса при монтировании
   useEffect(() => {
     async function fetchProgress() {
       setLoading(true);
@@ -76,10 +63,9 @@ export default function Workout({
       setLoading(false);
     }
     fetchProgress();
-    // 👇 Автоматически ресетим при изменении кол-ва упражнений
   }, [courseId, workoutId, exercises.length]);
 
-  // 🟢 2. PATCH на сервер
+  // PATCH на сервер
   const handleProgressSave = async (newProgress: number[]) => {
     setLoading(true);
     const token = localStorage.getItem("token");
@@ -98,21 +84,19 @@ export default function Workout({
     setTimeout(() => setToastOpen(false), 2000);
   };
 
-  // ✅ ПРОГРЕСС ПО УПРАЖНЕНИЯМ (только exercises.length)
-  const progressPercents = progress.map((count) => {
-    const percent = Math.round((count / maxPerExercise) * 100);
-    return isNaN(percent) ? 0 : percent;
+  // Проценты в каждой клетке
+  const progressPercents = progress.map((cnt, idx) => {
+    const quantity = exercises[idx]?.quantity || 1;
+    const percent = Math.round((cnt / quantity) * 100);
+    return Math.min(percent, 100); // Не больше 100%
   });
-
-  // ✅ Если твоему ExerciseList реально нужны "колонки по 3" — формируй вот так:
+  // Для ExerciseList, если нужно колонками по 3
   const columns = Math.ceil(exercises.length / 3);
   const progressColumns = Array.from({ length: columns }).map((_, colIdx) =>
     [0, 1, 2].map((rowIdx) => {
       const absIdx = colIdx * 3 + rowIdx;
-      const value = progress[absIdx] ?? 0;
-      const percent = Math.round((value / maxPerExercise) * 100);
-      // Если больше упражнений нет — всегда 0%
-      return isNaN(percent) || absIdx >= exercises.length ? 0 : percent;
+      const percent = progressPercents[absIdx] || 0;
+      return absIdx < exercises.length ? percent : 0;
     })
   );
 
@@ -121,7 +105,6 @@ export default function Workout({
       <h2 className={styles.title}>{courseName}</h2>
       <WorkoutVideo videoUrl={videoUrl} />
 
-      {/* ⛔️ Заглушка или список упражнений */}
       {exercises.length === 0 ? (
         <div className={styles.noExercises}>
           <span
@@ -139,14 +122,14 @@ export default function Workout({
             dayNumber={dayNumber}
             onProgressClick={() => setModalOpen(true)}
             progressColumns={progressColumns}
+            exercises={exercises}
           />
-
           <ProgressModal
             open={modalOpen}
             onClose={() => setModalOpen(false)}
             onSave={handleProgressSave}
-            exerciseNames={exerciseNames.slice(0, exercises.length)}
-            maxValues={Array(exercises.length).fill(maxPerExercise)}
+            exerciseNames={exercises.map((ex) => ex.name)}
+            maxValues={exercises.map((ex) => ex.quantity)}
             initialProgress={progress}
           />
         </>

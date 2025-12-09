@@ -12,7 +12,6 @@ type Props = {
   days: string;
   time: string;
   id: string; // id курса
-  progress: number;
   onDelete?: (courseId: string) => void;
 };
 
@@ -30,7 +29,6 @@ export default function UserCourseCard({
   days,
   time,
   id,
-  progress,
   onDelete,
 }: Props) {
   const router = useRouter();
@@ -40,6 +38,7 @@ export default function UserCourseCard({
   const [selectedIdx, setSelectedIdx] = useState(0);
   const [workouts, setWorkouts] = useState<UserWorkout[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     // Дождаться инициализации auth-контекста
@@ -49,6 +48,7 @@ export default function UserCourseCard({
     if (!isAuth || !token) {
       setWorkouts([]);
       setIsLoading(false);
+      setProgress(0);
       return;
     }
 
@@ -57,7 +57,7 @@ export default function UserCourseCard({
     // Получаем тренировки курса
     fetch(`https://wedev-api.sky.pro/api/fitness/courses/${id}/workouts`, {
       headers: {
-        Authorization: `Bearer ${token}`, // <­­­­­­­­----- обязателен!
+        Authorization: `Bearer ${token}`,
       },
     })
       .then((res) => {
@@ -98,18 +98,30 @@ export default function UserCourseCard({
               w.done = apiDone || localDone;
             });
             setWorkouts(workoutsArr);
+
+            // 👇 Считаем процент завершения!
+            const doneCount = workoutsArr.filter((w) => w.done).length;
+            const total = workoutsArr.length;
+            setProgress(total > 0 ? Math.round((doneCount / total) * 100) : 0);
           })
           .catch(() => {
             // fallback: только localStorage
             workoutsArr.forEach((w) => {
               w.done = isWorkoutDoneLocally(w.id);
             });
+
             setWorkouts(workoutsArr);
+
+            // 👇 Считаем прогресс по локальному хранилищу
+            const doneCount = workoutsArr.filter((w) => w.done).length;
+            const total = workoutsArr.length;
+            setProgress(total > 0 ? Math.round((doneCount / total) * 100) : 0);
           });
       })
       .catch((err) => {
         alert(err.message);
         setWorkouts([]);
+        setProgress(0);
       })
       .finally(() => setIsLoading(false));
   }, [modalOpen, id, isAuth, token, loading]);
@@ -165,8 +177,6 @@ export default function UserCourseCard({
   };
 
   const handleStartWorkout = (idx: number) => {
-    console.log("router push slug:", slug); // Проверяй!
-    console.log("router push id:", workouts[idx].id); // Проверяй!
     router.push(`/Fitness/courses/${slug}/workouts/${workouts[idx].id}`);
     setModalOpen(false);
   };

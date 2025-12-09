@@ -21,7 +21,6 @@ describe("UserCourseCard", () => {
         days="7 дней"
         time="15 мин"
         id="abc123"
-        progress={50}
       />
     );
 

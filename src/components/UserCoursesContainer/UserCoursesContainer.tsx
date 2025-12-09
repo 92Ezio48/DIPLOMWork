@@ -130,7 +130,6 @@ export default function UserCoursesContainer() {
             days={days}
             time={time}
             id={course._id}
-            progress={percent}
             onDelete={() => handleDelete(course._id)}
           />
         );

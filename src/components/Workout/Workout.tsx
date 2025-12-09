@@ -13,19 +13,6 @@ export type Exercise = {
   courseName: string;
 };
 
-const exerciseNames = [
-  "Наклон вперед (подход 1)",
-  "Наклон назад (подход 1)",
-  "Поднятие ног (подход 1)",
-  "Наклон вперед (подход 2)",
-  "Наклон назад (подход 2)",
-  "Поднятие ног (подход 2)",
-  "Наклон вперед (подход 3)",
-  "Наклон назад (подход 3)",
-  "Поднятие ног (подход 3)",
-];
-const maxPerExercise = 20;
-
 type WorkoutProps = {
   workoutId: string;
   videoUrl: string;
@@ -44,45 +31,49 @@ export default function Workout({
   dayNumber,
 }: WorkoutProps) {
   const [modalOpen, setModalOpen] = useState(false);
-  const [progress, setProgress] = useState<number[]>(Array(9).fill(0));
+
+  // 🟢 Прогресс точно под exercises.length
+  const [progress, setProgress] = useState<number[]>(
+    Array(exercises.length).fill(0)
+  );
   const [loading, setLoading] = useState(true);
   const [toastOpen, setToastOpen] = useState(false);
 
-  // 🟢 1. Загрузка прогресса при монтировании
+  // Загрузка прогресса при монтировании
   useEffect(() => {
     async function fetchProgress() {
       setLoading(true);
-      const token = localStorage.getItem("token"); // Если ты используешь JWT
+      const token = localStorage.getItem("token");
       const res = await fetch(
-        `http://localhost:4000/api/fitness/users/me/progress?courseId=${courseId}&workoutId=${workoutId}`,
+        `https://wedev-api.sky.pro/api/fitness/users/me/progress?courseId=${courseId}&workoutId=${workoutId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
       if (res.ok) {
         const data = await res.json();
-        if (data.progressData && data.progressData.length > 0) {
+        if (data.progressData && Array.isArray(data.progressData)) {
           setProgress(data.progressData);
+        } else {
+          setProgress(Array(exercises.length).fill(0));
         }
+      } else {
+        setProgress(Array(exercises.length).fill(0));
       }
       setLoading(false);
     }
     fetchProgress();
-  }, [courseId, workoutId]);
+  }, [courseId, workoutId, exercises.length]);
 
-  // 🟢 2. Сохранение прогресса на сервере
+  // PATCH на сервер
   const handleProgressSave = async (newProgress: number[]) => {
     setLoading(true);
-    const token = localStorage.getItem("token"); // Если используешь токены
-    // PATCH прогресса
+    const token = localStorage.getItem("token");
     await fetch(
-      `http://localhost:4000/api/fitness/courses/${courseId}/workouts/${workoutId}`,
+      `https://wedev-api.sky.pro/api/fitness/courses/${courseId}/workouts/${workoutId}`,
       {
         method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
         body: JSON.stringify({ progressData: newProgress }),
       }
     );
@@ -93,11 +84,19 @@ export default function Workout({
     setTimeout(() => setToastOpen(false), 2000);
   };
 
-  // Прогресс в процентах для отображения
-  const progressColumns = Array.from({ length: 3 }).map((_, colIdx) =>
+  // Проценты в каждой клетке
+  const progressPercents = progress.map((cnt, idx) => {
+    const quantity = exercises[idx]?.quantity || 1;
+    const percent = Math.round((cnt / quantity) * 100);
+    return Math.min(percent, 100); // Не больше 100%
+  });
+  // Для ExerciseList, если нужно колонками по 3
+  const columns = Math.ceil(exercises.length / 3);
+  const progressColumns = Array.from({ length: columns }).map((_, colIdx) =>
     [0, 1, 2].map((rowIdx) => {
       const absIdx = colIdx * 3 + rowIdx;
-      return Math.round((progress[absIdx] / maxPerExercise) * 100);
+      const percent = progressPercents[absIdx] || 0;
+      return absIdx < exercises.length ? percent : 0;
     })
   );
 
@@ -106,20 +105,35 @@ export default function Workout({
       <h2 className={styles.title}>{courseName}</h2>
       <WorkoutVideo videoUrl={videoUrl} />
 
-      <ExerciseList
-        dayNumber={dayNumber}
-        onProgressClick={() => setModalOpen(true)}
-        progressColumns={progressColumns}
-      />
-
-      <ProgressModal
-        open={modalOpen}
-        onClose={() => setModalOpen(false)}
-        onSave={handleProgressSave}
-        exerciseNames={exerciseNames}
-        maxValues={Array(9).fill(maxPerExercise)}
-        initialProgress={progress}
-      />
+      {exercises.length === 0 ? (
+        <div className={styles.noExercises}>
+          <span
+            role="img"
+            aria-label="упс"
+            style={{ fontSize: 40, display: "inline-block", marginRight: 8 }}
+          >
+            🤷‍♂️
+          </span>
+          Нет упражнений в этой тренировке
+        </div>
+      ) : (
+        <>
+          <ExerciseList
+            dayNumber={dayNumber}
+            onProgressClick={() => setModalOpen(true)}
+            progressColumns={progressColumns}
+            exercises={exercises}
+          />
+          <ProgressModal
+            open={modalOpen}
+            onClose={() => setModalOpen(false)}
+            onSave={handleProgressSave}
+            exerciseNames={exercises.map((ex) => ex.name)}
+            maxValues={exercises.map((ex) => ex.quantity)}
+            initialProgress={progress}
+          />
+        </>
+      )}
 
       {toastOpen && <SuccessToast />}
       {loading && <div>Загрузка...</div>}

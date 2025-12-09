@@ -2,143 +2,135 @@ import { useEffect, useState } from "react";
 import UserCourseCard from "@/components/UserCourseCard/UserCourseCard";
 import styles from "./UserCoursesContainer.module.scss";
 
+// Локальные картинки и слаги для курсов — только для image и slug
 const coursesLocal = [
-  {
-    _id: "69335925d2bf502c0e0d131b", // 👈 важно!
-    slug: "yoga",
-    title: "Йога",
-    image: "/YogaCard.svg",
-    days: "25 дней",
-    time: "20–50 мин/день",
-  },
-  {
-    _id: "6933599fd2bf502c0e0d131f",
-    slug: "stretching",
-    title: "Стретчинг",
-    image: "/Course2.svg",
-    days: "25 дней",
-    time: "15–35 мин/день",
-  },
-  {
-    _id: "693359c2d2bf502c0e0d1321",
-    slug: "fitness",
-    title: "Фитнес",
-    image: "/Course3.svg",
-    days: "25 дней",
-    time: "25–40 мин/день",
-  },
-  {
-    _id: "693359e1d2bf502c0e0d1323",
-    slug: "step-aerobics",
-    title: "Степ-аэробика",
-    image: "/Course4.svg",
-    days: "25 дней",
-    time: "20–30 мин/день",
-  },
-  {
-    _id: "693359f8d2bf502c0e0d1325",
-    slug: "bodyflex",
-    title: "Бодифлекс",
-    image: "/Course5.svg",
-    days: "25 дней",
-    time: "10–20 мин/день",
-  },
+  { slug: "yoga", title: "Йога", image: "/YogaCard.svg" },
+  { slug: "stretching", title: "Стретчинг", image: "/Course2.svg" },
+  { slug: "fitness", title: "Фитнес", image: "/Course3.svg" },
+  { slug: "step-aerobics", title: "Степ-аэробика", image: "/Course4.svg" },
+  { slug: "bodyflex", title: "Бодифлекс", image: "/Course5.svg" },
 ];
 
+const MY_COURSES_KEY = "myCourses";
+
+// --- Функции для localStorage выбранных курсов
+function getMyCourses() {
+  try {
+    return JSON.parse(localStorage.getItem(MY_COURSES_KEY)) || [];
+  } catch {
+    return [];
+  }
+}
+function removeMyCourse(courseId) {
+  const arr = getMyCourses().filter((id) => id !== courseId);
+  localStorage.setItem(MY_COURSES_KEY, JSON.stringify(arr));
+}
+
+// --- Основной компонент
 export default function UserCoursesContainer() {
-  const [userCourses, setUserCourses] = useState([]);
-  const [progressMap, setProgressMap] = useState({});
+  const [userCourses, setUserCourses] = useState<any[]>([]);
+  const [progressMap, setProgressMap] = useState<any>({});
   const [loading, setLoading] = useState(true);
 
+  // Загружаем свои курсы из API
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      setLoading(false);
-      return;
+    async function fetchAndSyncUserCourses() {
+      const token = localStorage.getItem("token");
+      if (!token) return setLoading(false);
+
+      try {
+        // Получаем список выбранных курсов пользователя (по id)
+        const res = await fetch(
+          "https://wedev-api.sky.pro/api/fitness/users/me",
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        const data = await res.json();
+        const selectedCourses = data.user?.selectedCourses || [];
+        localStorage.setItem(MY_COURSES_KEY, JSON.stringify(selectedCourses));
+
+        // Скачиваем весь список курсов, чтобы получить свежие name, дни, минуты
+        const coursesRes = await fetch(
+          "https://wedev-api.sky.pro/api/fitness/courses"
+        );
+        const coursesList = await coursesRes.json();
+
+        // Оставляем только те, что в профиле пользователя
+        const filtered = coursesList.filter((course: any) =>
+          selectedCourses.includes(course._id)
+        );
+        setUserCourses(filtered);
+        setLoading(false);
+      } catch (e) {
+        setLoading(false);
+      }
     }
-    // Загружаем курсы пользователя
-    fetch("http://localhost:4000/api/fitness/users/me/courses", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => setUserCourses(data.courses || []))
-      .catch(() => setUserCourses([]))
-      .finally(() => setLoading(false));
+    fetchAndSyncUserCourses();
   }, []);
 
-  // Загружаем прогресс по всем курсам пользователя
+  // Прогресс тренировки (пока не используем реальное API)
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token || userCourses.length === 0) return;
+    if (userCourses.length === 0) return;
     async function loadProgress() {
-      // Promise.all запускаем для ВСЕХ id
-      const arr = await Promise.all(
-        userCourses.map(async (uc) => {
-          const res = await fetch(
-            `http://localhost:4000/api/fitness/users/me/progress?courseId=${uc.courseId}`,
-            { headers: { Authorization: `Bearer ${token}` } }
-          );
-          if (!res.ok) return [uc.courseId, null];
-          const data = await res.json();
-          return [uc.courseId, data];
-        })
-      );
+      const arr = userCourses.map((course) => [
+        course._id,
+        { workoutsProgress: [] },
+      ]);
       setProgressMap(Object.fromEntries(arr));
     }
     loadProgress();
   }, [userCourses]);
 
-  const handleDelete = async (courseId) => {
-    setUserCourses((prev) => prev.filter((c) => c.courseId !== courseId));
-    const token = localStorage.getItem("token");
-    if (!token) return;
-    try {
-      await fetch(
-        `http://localhost:4000/api/fitness/users/me/courses/${courseId}`,
-        {
-          method: "DELETE",
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-    } catch (e) {}
+  // --- Удаление курса ---
+  const handleDelete = (courseId: string) => {
+    removeMyCourse(courseId);
+    setUserCourses((prev) => prev.filter((c) => c._id !== courseId));
   };
 
+  // --- Рендер ---
   if (loading) return <div>Загрузка...</div>;
   if (userCourses.length === 0)
     return <div>У вас ещё нет добавленных курсов!</div>;
 
   return (
     <div className={styles.grid}>
-      {userCourses.map((uc) => {
-        const localCourse = coursesLocal.find((c) => c._id === uc.courseId);
-        if (!localCourse) return null;
-
-        // Получаем прогресс из Map
-        const progressData = progressMap[uc.courseId];
+      {userCourses.map((course: any) => {
+        // Подбираем картинку и slug из локального справочника по русскому названию
+        const local = coursesLocal.find(
+          (c) => c.title.toLowerCase() === course.nameRU?.toLowerCase()
+        );
+        // Длительность курса (только из API)
+        const days = course.durationInDays
+          ? `${course.durationInDays} дней`
+          : "—";
+        // Время курса (только из API)
+        const time = course.dailyDurationInMinutes
+          ? `${course.dailyDurationInMinutes.from}–${course.dailyDurationInMinutes.to} мин/день`
+          : "—";
+        // Прогресс (пример: всегда 0%)
+        const progressData = progressMap[course._id];
         let percent = 0;
-        if (progressData && localCourse.days) {
-          // Дни: "25 дней" => 25, можно иначе хранить число
-          const total = Number(localCourse.days.split(" ")[0]);
+        if (progressData && course.durationInDays) {
+          const total = Number(course.durationInDays);
           const completed = Array.isArray(progressData.workoutsProgress)
-            ? progressData.workoutsProgress.filter((w) => w.workoutCompleted)
-                .length
+            ? progressData.workoutsProgress.filter(
+                (w: any) => w.workoutCompleted
+              ).length
             : 0;
           percent = total > 0 ? Math.round((completed / total) * 100) : 0;
         }
 
         return (
           <UserCourseCard
-            key={uc.courseId}
-            slug={localCourse.slug}
-            title={localCourse.title}
-            image={localCourse.image}
-            days={localCourse.days}
-            time={localCourse.time}
-            id={localCourse._id}
-            progress={percent}
-            onDelete={handleDelete}
+            key={course._id}
+            slug={
+              local ? local.slug : course.nameEN?.toLowerCase() || course._id
+            }
+            title={course.nameRU}
+            image={local ? local.image : "/default.svg"}
+            days={days}
+            time={time}
+            id={course._id}
+            onDelete={() => handleDelete(course._id)}
           />
         );
       })}

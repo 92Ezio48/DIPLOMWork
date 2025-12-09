@@ -41,7 +41,7 @@
   outline: none;
   transition: border 0.2s;
   color: rgba(0, 0, 0, 1);
-  font-family: Roboto;
+  font-family: var(--font-montserrat), sans-serif;
   font-size: 18px;
   font-weight: 400;
   line-height: 110%;
@@ -90,7 +90,7 @@ input:-webkit-autofill:active {
   transition: box-shadow 0.13s;
   cursor: pointer;
   color: rgba(0, 0, 0, 1);
-  font-family: Roboto;
+  font-family: var(--font-montserrat), sans-serif;
   font-size: 18px;
   font-weight: 400;
   line-height: 110%;
@@ -112,7 +112,7 @@ input:-webkit-autofill:active {
   cursor: pointer;
   transition: border 0.15s;
   color: rgba(0, 0, 0, 1);
-  font-family: Roboto;
+  font-family: var(--font-montserrat), sans-serif;
   font-size: 18px;
   font-weight: 400;
   line-height: 110%;
@@ -135,7 +135,7 @@ input:-webkit-autofill:active {
 }
 .errorText {
   color: rgba(219, 0, 48, 1);
-  font-family: Roboto;
+  font-family: var(--font-montserrat), sans-serif;
   font-size: 14px;
   font-weight: 400;
   line-height: 110%;

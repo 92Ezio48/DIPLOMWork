@@ -5,18 +5,14 @@
   align-items: center;
   justify-content: center;
   border-radius: 8px;
-
-  min-width: 190px;
-  max-width: 320px;
-  min-height: 60px;
-  padding: 18px 26px;
-
+  width: 288px;
+  height: 102px;
   position: relative;
 }
 .bubbleTail {
   position: absolute;
-  left: 103.06px;
   top: 85px;
+  left: 118.06px;
   width: 30px;
   height: 35px;
   pointer-events: none;

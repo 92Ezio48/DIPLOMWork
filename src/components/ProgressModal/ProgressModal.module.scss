@@ -84,7 +84,7 @@
   border-radius: 46px;
   background: rgba(188, 236, 48, 1);
   color: rgba(0, 0, 0, 1);
-  font-family: Roboto;
+  font-family: var(--font-montserrat), sans-serif;
   font-size: 18px;
   font-weight: 400;
   line-height: 110%;
@@ -116,7 +116,7 @@
   }
   .label {
     color: rgba(0, 0, 0, 1);
-    font-family: Roboto;
+    font-family: var(--font-montserrat), sans-serif;
     font-size: 16px;
     font-weight: 400;
     line-height: 110%;
@@ -135,7 +135,7 @@
     height: 43px;
     padding-left: 16px;
     color: rgba(0, 0, 0, 1);
-    font-family: Roboto;
+    font-family: var(--font-montserrat), sans-serif;
     font-size: 14px;
     font-weight: 400;
     line-height: 110%;

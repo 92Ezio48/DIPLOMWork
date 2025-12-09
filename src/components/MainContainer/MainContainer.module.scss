@@ -16,7 +16,7 @@
 }
 .h1 {
   color: rgba(0, 0, 0, 1);
-  font-family: Roboto;
+  font-family: var(--font-montserrat), sans-serif;
   font-size: 60px;
   font-weight: 500;
   line-height: 100%;
@@ -46,7 +46,7 @@
   width: 127px;
   height: 52px;
   color: rgba(0, 0, 0, 1);
-  font-family: Roboto;
+  font-family: var(--font-montserrat), sans-serif;
   font-size: 18px;
   font-weight: 400;
   line-height: 110%;
@@ -61,13 +61,12 @@
     padding-left: 16px;
     padding-right: 16px;
     margin-top: 60px;
-    /* желательно явно ограничить max-width! */
     max-width: 1920px;
     box-sizing: border-box;
   }
   .h1 {
     color: rgba(0, 0, 0, 1);
-    font-family: Roboto;
+    font-family: var(--font-montserrat), sans-serif;
     font-size: 32px;
     font-weight: 500;
     line-height: 110%;
